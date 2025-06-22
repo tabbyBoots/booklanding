@@ -1,0 +1,161 @@
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using mvcDapper3.Models.ViewModel;
+@model IPagedList<vmUser>
+@{
+    ViewData["Title"] = "會員管理";
+    Layout = "_BookLandingAdminLayout";
+}
+
+<!-- Header Actions -->
+<div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-up">
+    <div>
+        <p class="text-muted mb-0">管理系統中的所有會員資料</p>
+    </div>
+    <div>
+        @Html.ActionLink("新增會員", "Create", "User", new { area = "Admin" }, new { @class = "btn btn-admin" })
+    </div>
+</div>
+
+<!-- User List Card -->
+<div class="admin-card" data-aos="fade-up" data-aos-delay="100">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            <i class="bi bi-people me-2"></i>會員列表
+        </h5>
+        <div class="page-info text-white">@ViewBag.PageInfo</div>
+    </div>
+    <div class="admin-card-body">
+        <!-- Pagination links -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                @Html.PagedListPager(Model, x => Url.Action("Index", "User", new
+                {
+                    area = "Admin",
+                    id = x
+                }), new PagedListRenderOptions
+                {
+                    UlElementClasses = new[] { "pagination" },
+                    LiElementClasses = new[] { "page-item" },
+                    PageClasses = new[] { "page-link" }
+                })
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="text-muted me-3">共 @Model.TotalItemCount 筆資料</span>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead style="background-color: var(--background-color);">
+                    <tr>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">序號</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().UserName)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().RoleNo)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().ContactEmail)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().UserNo)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().GenderName)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().DeptName)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().TitleName)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().CodeNo)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().Birthday)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">@Html.DisplayNameFor(model => model.First().OnboardDate)</th>
+                        <th style="font-family: var(--nav-font); font-weight: 600; color: var(--heading-color);">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var rowNumber = ((Model.PageNumber - 1) * Model.PageSize) + 1;
+                    }
+                    @foreach (var user in Model)
+                    {
+                        <tr style="transition: all 0.3s ease;">
+                            <td style="font-family: var(--default-font);">@rowNumber</td>
+                            <td style="font-family: var(--default-font); font-weight: 500;">@Html.DisplayFor(modelItem => user.UserName)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.RoleNo)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.ContactEmail)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.UserNo)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.GenderName)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.DeptName)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.TitleName)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.CodeNo)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.Birthday)</td>
+                            <td style="font-family: var(--default-font);">@Html.DisplayFor(modelItem => user.OnboardDate)</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    @Html.ActionLink("編輯", "Edit", "User", new { id = user.Id, Page = Model.PageNumber }, new { @class = "btn btn-sm btn-outline-primary" })
+                                    <a href="#deleteModal" data-id="@user.Id" data-title="@user.UserName"
+                                        class="btn btn-sm btn-outline-danger delete-link" data-bs-toggle="modal">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        rowNumber++;
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Pagination -->
+        <div class="d-flex justify-content-center mt-4">
+            @Html.PagedListPager(Model, x => Url.Action("Index", "User", new
+            {
+                area = "Admin",
+                id = x
+            }), new PagedListRenderOptions
+            {
+                UlElementClasses = new[] { "pagination" },
+                LiElementClasses = new[] { "page-item" },
+                PageClasses = new[] { "page-link" }
+            })
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+            <form method="post" asp-controller="User" asp-action="Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteUserId" value="DELETE" />
+                <div class="modal-header" style="background: linear-gradient(135deg, #dc3545, color-mix(in srgb, #dc3545, transparent 10%)); color: white; border-bottom: none; border-radius: 15px 15px 0 0; padding: 20px 25px;">
+                    <h5 class="modal-title" style="font-family: var(--heading-font); font-weight: 600;">
+                        <i class="bi bi-exclamation-triangle me-2"></i>確認刪除
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 25px; font-family: var(--default-font);">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-person-x display-4 text-danger mb-3"></i>
+                        <p class="mb-3">您確定要刪除會員 <strong id="deleteUserName" style="color: var(--accent-color);"></strong> 嗎？</p>
+                        <p class="text-muted small">此操作無法復原，請謹慎考慮。</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%); padding: 20px 25px;">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 25px; padding: 8px 20px;">
+                        <i class="bi bi-x-circle me-2"></i>取消
+                    </button>
+                    <button type="submit" class="btn btn-danger" style="border-radius: 25px; padding: 8px 20px; background-color: #dc3545; border-color: #dc3545;">
+                        <i class="bi bi-trash me-2"></i>確認刪除
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.delete-link').click(function (e) {
+                e.preventDefault();
+                $('#deleteUserId').val($(this).data('id'));
+                $('#deleteUserName').text($(this).data('title'));
+                $('#deleteModal').modal('show');
+            });
+        });
+    </script>
+}

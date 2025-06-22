@@ -1,0 +1,575 @@
+@using mvcDapper3.AppCodes.AppService;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>@ViewData["Title"] - BookLanding Admin</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="~/images/booklanding/favicon.png" rel="icon">
+  <link href="~/images/booklanding/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Main CSS File -->
+  <link href="~/css/booklanding/main.css" rel="stylesheet">
+
+  <!-- Admin specific styles -->
+  <style>
+    /* BookLanding Admin Styles */
+    .admin-page {
+      background-color: var(--background-color);
+      min-height: 100vh;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+      color: var(--contrast-color);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .admin-header .navbar-brand {
+      font-family: var(--heading-font);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--contrast-color);
+      text-decoration: none;
+    }
+
+    .admin-header .navbar-brand:hover {
+      color: var(--contrast-color);
+    }
+
+    .admin-header .nav-link {
+      color: var(--contrast-color);
+      font-family: var(--nav-font);
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .admin-header .nav-link:hover {
+      color: color-mix(in srgb, var(--contrast-color), transparent 20%);
+    }
+
+    .admin-sidebar {
+      background-color: var(--surface-color);
+      border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+      min-height: calc(100vh - 70px);
+      padding: 20px 0;
+    }
+
+    .admin-sidebar .nav-link {
+      color: var(--default-color);
+      font-family: var(--nav-font);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin: 2px 15px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .admin-sidebar .nav-link:hover,
+    .admin-sidebar .nav-link.active {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+      color: var(--accent-color);
+    }
+
+    .admin-sidebar .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .admin-content {
+      padding: 30px;
+      background-color: var(--background-color);
+    }
+
+    .admin-card {
+      background-color: var(--surface-color);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      border: none;
+      margin-bottom: 25px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .admin-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .admin-card-header {
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 10%));
+      color: var(--contrast-color);
+      padding: 20px 25px;
+      border-bottom: none;
+      font-family: var(--heading-font);
+      font-weight: 600;
+    }
+
+    .admin-card-body {
+      padding: 25px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--surface-color), color-mix(in srgb, var(--accent-color), transparent 95%));
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      border: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-color: var(--accent-color);
+    }
+
+    .stat-card .stat-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+      color: var(--contrast-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+    }
+
+    .stat-card .stat-number {
+      font-family: var(--heading-font);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 5px;
+    }
+
+    .stat-card .stat-label {
+      font-family: var(--nav-font);
+      color: color-mix(in srgb, var(--default-color), transparent 30%);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+    }
+
+    .breadcrumb {
+      background-color: transparent;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb-item {
+      font-family: var(--nav-font);
+      color: color-mix(in srgb, var(--default-color), transparent 40%);
+    }
+
+    .breadcrumb-item.active {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+      color: color-mix(in srgb, var(--default-color), transparent 60%);
+    }
+
+    .page-title {
+      font-family: var(--heading-font);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 10px;
+    }
+
+    .btn-admin {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-family: var(--nav-font);
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-admin:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 15%);
+      color: var(--contrast-color);
+      transform: translateY(-2px);
+    }
+
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .dropdown-item {
+      font-family: var(--nav-font);
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+      color: var(--accent-color);
+    }
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid var(--contrast-color);
+    }
+
+    .user-avatar-initials {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid var(--contrast-color);
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+      color: var(--contrast-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: var(--nav-font);
+    }
+
+    .user-avatar-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid var(--contrast-color);
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+      color: var(--contrast-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .user-avatar-icon:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Form Controls */
+    .admin-form-control {
+      font-family: var(--default-font);
+      transition: all 0.3s ease;
+    }
+
+    .admin-form-control:focus {
+      border-color: var(--accent-color) !important;
+      box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent-color), transparent 75%) !important;
+      outline: none;
+    }
+
+    .form-label {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .form-section {
+      background-color: color-mix(in srgb, var(--surface-color), transparent 50%);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid color-mix(in srgb, var(--default-color), transparent 95%);
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    /* Table Styles */
+    .table {
+      font-family: var(--default-font);
+    }
+
+    .table th {
+      border-top: none;
+      border-bottom: 2px solid color-mix(in srgb, var(--accent-color), transparent 80%);
+      font-weight: 600;
+      padding: 15px 12px;
+    }
+
+    .table td {
+      padding: 12px;
+      vertical-align: middle;
+      border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 95%);
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+      color: var(--accent-color);
+      border-color: color-mix(in srgb, var(--accent-color), transparent 70%);
+      font-family: var(--nav-font);
+    }
+
+    .pagination .page-link:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .pagination .page-item.active .page-link {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--contrast-color);
+    }
+
+    /* Button Styles */
+    .btn-outline-primary {
+      color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--contrast-color);
+    }
+
+    .btn-outline-danger {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: white;
+    }
+
+    .btn-outline-secondary {
+      color: var(--default-color);
+      border-color: color-mix(in srgb, var(--default-color), transparent 70%);
+    }
+
+    .btn-outline-secondary:hover {
+      background-color: var(--default-color);
+      border-color: var(--default-color);
+      color: var(--contrast-color);
+    }
+
+    @@media (max-width: 768px) {
+      .admin-content {
+        padding: 20px 15px;
+      }
+      
+      .stat-card {
+        margin-bottom: 20px;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+
+      .form-section {
+        padding: 15px;
+      }
+
+      .table-responsive {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+
+  @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="admin-page">
+  <!-- Admin Header -->
+  <header class="admin-header">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+          <i class="bi bi-book me-2"></i>BookLanding
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Mis") || User.IsInRole("User")))
+            {
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                  @{
+                    var userName = User.Identity.Name ?? "User";
+                    var userRole = "";
+                    if (User.IsInRole("Admin")) userRole = "Admin";
+                    else if (User.IsInRole("Mis")) userRole = "Mis";
+                    else if (User.IsInRole("User")) userRole = "User";
+                    
+                    // Use Font Awesome icons as default avatars based on role
+                    var iconClass = "";
+                    switch (userRole.ToLower())
+                    {
+                      case "admin":
+                        iconClass = "fas fa-user-shield"; // Admin with shield
+                        break;
+                      case "mis":
+                        iconClass = "fas fa-desktop"; // MIS with desktop/monitor
+                        break;
+                      case "user":
+                        iconClass = "fas fa-user"; // Regular user
+                        break;
+                      default:
+                        iconClass = "fas fa-user-circle"; // Default user circle
+                        break;
+                    }
+                  }
+                  
+                  <div class="user-avatar-icon me-2" title="@userRole">
+                    <i class="@iconClass"></i>
+                  </div>
+                  <span>@userName</span>
+                  @if (!string.IsNullOrEmpty(userRole))
+                  {
+                    <small class="text-light ms-1">(@userRole)</small>
+                  }
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <form asp-action="Logout" asp-controller="Account" asp-area="" method="post" class="d-inline">
+                      @Html.AntiForgeryToken()
+                      <button type="submit" class="dropdown-item">
+                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+            }
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-3 col-lg-2 admin-sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+              <i class="bi bi-speedometer2"></i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index", "User", new { area = "Admin" })">
+              <i class="bi bi-people"></i>
+              會員管理
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-book"></i>
+              書籍管理
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-cart"></i>
+              訂單管理
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-bar-chart"></i>
+              統計報表
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-gear"></i>
+              系統設定
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-9 col-lg-10 admin-content">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Home</a></li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+          </ol>
+        </nav>
+
+        <!-- Page Title -->
+        <h1 class="page-title">@ViewData["Title"]</h1>
+
+        <!-- Page Content -->
+        @RenderBody()
+      </main>
+    </div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="~/lib/jquery/jquery.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Initialize AOS -->
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+  </script>
+
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

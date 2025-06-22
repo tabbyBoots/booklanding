@@ -1,0 +1,143 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+
+# Others
+~$*
+*~
+CodeCoverage/
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# SECURITY: Environment variables and secrets
+.env
+.env.local
+.env.development
+.env.production
+*.env
+
+# SECURITY: User secrets (ASP.NET Core)
+**/Properties/launchSettings.json
+
+# SECURITY: Log files that may contain sensitive data
+Data/logs/
+Data/*.log
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+
+# SECURITY: Database files and backups
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.bak
+Data/*.sql
+Data/backups/
+
+# SECURITY: Configuration files with secrets (keep templates)
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+!appsettings.template.json
+!appsettings.Development.template.json
+
+# SECURITY: SSL certificates and keys
+*.pfx
+*.p12
+*.key
+*.pem
+*.crt
+*.cer
+
+# SECURITY: Temporary and cache files
+*.tmp
+*.temp
+.cache/
+.vs/
+.vscode/settings.json
+.vscode/launch.json
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development tools
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node.js (if using npm/yarn for frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if any Python scripts)
+.venv/
+__pycache__/
+*.py[cod]
+.roo/
+
+# Template config
+.template.config/
+
+# Task files
+tasks.json
+tasks/
+
+# Backup files
+*.bak
+*.backup
+*~

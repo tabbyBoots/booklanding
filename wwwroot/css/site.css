@@ -1,0 +1,161 @@
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  margin-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.sidenav a {
+  color: white !important;
+}
+
+.sidenav a:hover,
+.sidesubnav a:hover {
+  color: orange !important;
+}
+
+.sidesubnav a {
+  color: yellow !important;
+}
+
+.sidesubnav {
+  width: 100%;
+}
+
+.card {
+  margin: auto !important;
+}
+
+.card-size-small {
+  max-width: 576px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.card-size-medium {
+  max-width: 768px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.card-size-large {
+  max-width: 992px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.card-size-max {
+  max-width: 100%;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.table th {
+  font-weight: bold;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table-wrap {
+  width: 100%;
+}
+
+#menu .nav-link {
+  color: white !important;
+}
+
+#menu .nav-link:active,
+#menu .nav-link:focus,
+#menu .nav-link:hover {
+  color: #ffc107 !important;
+}
+
+.sidebar-nav a:active,
+.sidebar-nav a:focus,
+.sidebar-nav a:hover {
+  color: maroon !important;
+}
+
+.footer {
+  position: relative !important;
+}
+
+.footer .copyright {
+  text-align: right !important;
+  color: #012970 !important;
+  margin-right: 5px !important;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination li a {
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.pagination .active a,
+.pagination .active a:hover {
+  color: #ffc107;
+  background-color: #ffc107;
+  border: 1px solid #ffc107;
+} 
+/* Page info and links alignment */
+.page-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.page-info {
+    text-align: left;
+}
+
+.page-links {
+    text-align: right;
+}
+
+/* Make toastr notifications fully opaque by default */
+#toast-container>div {
+  opacity: 1 !important;
+}
+
+/* Maintain the fade in/out transitions */
+.toast-enter,
+.toast-leave-active {
+  transition: opacity .3s ease;
+}
+
+.toast-enter,
+.toast-leave-to {
+  opacity: 0;
+}

@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="ASP.NET MVC Core - Bootstrap 5 Responsive Admin">
+        <meta name="author" content="Johnson">
+        <meta name="keyword" content="ASP.NET MVC Core, Dashboard, Admin, Template, Theme, Bootstrap, Responsive">
+        <link rel="icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")">
+        <title>@ViewData["Title"] - Management System</title>
+        <link rel="stylesheet" href="@Url.Content("~/lib/jqueryui/themes/base/jquery-ui.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap-icons/font/bootstrap-icons.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/toastr.js/toastr.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/font-awesome/css/all.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/flag-icons/css/flag-icons.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap-select/css/bootstrap-select.min.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/limonte-sweetalert2/sweetalert2.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/css/site.css")" asp-append-version="true" />
+        @await RenderSectionAsync("Styles", required: false)
+
+        <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+        <script src="@Url.Content("~/lib/jqueryui/jquery-ui.min.js")"></script>
+        <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
+        <script src="@Url.Content("~/lib/Chart.js/chart.umd.min.js")"></script>
+        <script src="@Url.Content("~/lib/font-awesome/js/all.js")"></script>
+        <script src="@Url.Content("~/lib/moment.js/moment.min.js")"></script>
+        <script src="@Url.Content("~/lib/moment.js/locale/zh-tw.min.js")"></script>
+        <script src="@Url.Content("~/lib/limonte-sweetalert2/sweetalert2.min.js")"></script>
+        <script src="@Url.Content("~/lib/bootstrap-select/js/bootstrap-select.min.js")"></script>
+        <script src="@Url.Content("~/lib/bootstrap-select/js/i18n/defaults-zh_TW.min.js")"></script>
+        <script src="@Url.Content("~/lib/toastr.js/toastr.min.js")"></script>
+        <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <!-- TopMenu -->
+            <div class="row flex-nowrap">
+                <div class="col-12 bg-dark">
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white">
+                        <a class="navbar-brand" href="#">Management System</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index" , "Home" , new {area = ""})">首頁</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        系統功能
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
+                                        aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item"
+                                                href="@Url.Action("Index" , "Home" , new {area = ""})">系統功能一</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="@Url.Action("Index" , "Home" , new {area = ""})">系統功能二</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="@Url.Action("Index" , "Home" , new {area = ""})">其它功能</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" style="display:none;" href="#" tabindex="-1" aria-disabled="true">無權限功能</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle dropdown-toggle" id="dropdownUser1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                            class="rounded-circle">
+                                        <span class="d-none d-sm-inline mx-1">User</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
+                                        aria-labelledby="dropdownUser1">
+                                        <li><a class="dropdown-item"
+                                                href="@Url.Action("Index" , "Home" , new {area = ""})">帳號管理
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="@Url.Action("Index" , "Home" , new {area = ""})">重設密碼
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <form asp-action="Logout" asp-controller="Account" asp-area="" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item">登出系統</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="row flex-nowrap">
+                <!-- SideMenu -->
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+                    <div
+                        class="sidenav d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                            id="menu">
+                            <li>
+                                <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="bi bi-book-fill"></i>
+                                    <span class="ms-2 d-none d-sm-inline fs-5">基本資料管理</span>
+                                    <i class="fa fa-caret-down"></i>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-pencil-square" title="客戶基本資料管理"></i>
+                                            <span class="d-none d-sm-inline">客戶基本資料管理</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-pencil-square" title="廠商基本資料管理"></i>
+                                            <span class="d-none d-sm-inline">廠商基本資料管理</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-person-fill"></i>
+                                    <span class="ms-1 d-none d-sm-inline fs-5">客戶資料查詢</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                    <i class="fs-4 bi-card-text"></i>
+                                    <span class="ms-1 d-none d-sm-inline fs-5">訂單資料管理</span>
+                                    <i class="fa fa-caret-down"></i>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-search" title="客戶訂單資料查詢"></i>
+                                            <span class="d-none d-sm-inline">客戶訂單資料查詢</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-printer" title="客戶訂單資料列印"></i>
+                                            <span class="d-none d-sm-inline">客戶訂單資料列印</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse"
+                                    class="nav-link text-white px-0 align-middle">
+                                    <i class="fs-4 bi-grid"></i>
+                                    <span class="ms-1 d-none d-sm-inline fs-5">商品資料管理</span>
+                                    <i class="fa fa-caret-down"></i>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-pencil-square" title="商品資料維護"></i>
+                                            <span class="d-none d-sm-inline">商品資料維護</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-pencil-square" title="商品資料設定"></i>
+                                            <span class="d-none d-sm-inline">商品資料設定</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-pencil-square" title="商品資料分類"></i>
+                                            <span class="d-none d-sm-inline">商品資料分類</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidesubnav w-100">
+                                        <a href="@Url.Action("Index" , "Home" , new {area = ""})" class="nav-link">
+                                            <i class="fs-4 bi-printer" title="商品資料列印"></i>
+                                            <span class="d-none d-sm-inline">商品資料列印</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index" , "Home" , new {area = ""})"
+                                    class="nav-link text-white px-0 align-middle">
+                                    <i class="fs-4 bi-gear"></i> <span
+                                        class="ms-1 d-none d-sm-inline fs-5">系統參數設定</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-auto col-md-9 col-xl-10">
+                    <!-- Site Map -->
+                    <div class="bg-light py-2">
+                        <ul class="nav nav-pills text-dark">
+                            <li><a href="@Url.Action("Index" , "Home" , new {area = ""})">首頁</a></li>
+                            <li><span class="px-1">/</span></li>
+                            <li>首頁儀表板</li>
+                        </ul>
+                    </div>
+                    <!-- Content -->
+                    <div class="col py-3">
+                        <!-- Content -->
+                    @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+        @await RenderSectionAsync("ScriptsBody", required: false)
+        @await Html.PartialAsync("_ToastNotifications")
+    </body>
+
+</html>

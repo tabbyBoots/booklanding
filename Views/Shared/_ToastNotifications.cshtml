@@ -1,0 +1,35 @@
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        $(document).ready(function() {
+            toastr.success('@TempData["SuccessMessage"]');
+        });
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        $(document).ready(function() {
+            toastr.error('@TempData["ErrorMessage"]');
+        });
+    </script>
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <script>
+        $(document).ready(function() {
+            toastr.warning('@TempData["WarningMessage"]');
+        });
+    </script>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <script>
+        $(document).ready(function() {
+            toastr.info('@TempData["InfoMessage"]');
+        });
+    </script>
+}

@@ -1,0 +1,237 @@
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_BookLandingAdminLayout";
+}
+
+<!-- Statistics Cards -->
+<div class="row mb-4" data-aos="fade-up">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-book"></i>
+            </div>
+            <div class="stat-number">1,247</div>
+            <div class="stat-label">總書籍數量</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="stat-number">856</div>
+            <div class="stat-label">註冊會員</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-cart"></i>
+            </div>
+            <div class="stat-number">342</div>
+            <div class="stat-label">本月訂單</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-currency-dollar"></i>
+            </div>
+            <div class="stat-number">$12,450</div>
+            <div class="stat-label">本月營收</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Cards -->
+<div class="row">
+    <!-- Sales Chart -->
+    <div class="col-lg-8 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-bar-chart me-2"></i>銷售趨勢
+                </h5>
+            </div>
+            <div class="admin-card-body">
+                <div id="salesChart" style="height: 300px;">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div class="text-center">
+                            <i class="bi bi-bar-chart display-4 text-muted mb-3"></i>
+                            <p class="text-muted">銷售圖表將在此顯示</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-clock-history me-2"></i>最近活動
+                </h5>
+            </div>
+            <div class="admin-card-body">
+                <div class="activity-item d-flex align-items-center mb-3">
+                    <div class="activity-icon me-3">
+                        <i class="bi bi-person-plus text-success"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">新用戶註冊</div>
+                        <div class="activity-time text-muted small">5 分鐘前</div>
+                    </div>
+                </div>
+                <div class="activity-item d-flex align-items-center mb-3">
+                    <div class="activity-icon me-3">
+                        <i class="bi bi-cart-plus text-primary"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">新訂單建立</div>
+                        <div class="activity-time text-muted small">15 分鐘前</div>
+                    </div>
+                </div>
+                <div class="activity-item d-flex align-items-center mb-3">
+                    <div class="activity-icon me-3">
+                        <i class="bi bi-book-half text-info"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">新書籍上架</div>
+                        <div class="activity-time text-muted small">1 小時前</div>
+                    </div>
+                </div>
+                <div class="activity-item d-flex align-items-center">
+                    <div class="activity-icon me-3">
+                        <i class="bi bi-star text-warning"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">收到新評價</div>
+                        <div class="activity-time text-muted small">2 小時前</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Cards Row -->
+<div class="row">
+    <!-- Popular Books -->
+    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-trophy me-2"></i>熱門書籍
+                </h5>
+            </div>
+            <div class="admin-card-body">
+                <div class="book-item d-flex align-items-center mb-3 p-3 rounded" style="background-color: var(--background-color);">
+                    <div class="book-cover me-3">
+                        <div class="bg-primary rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 60px;">
+                            <i class="bi bi-book text-white"></i>
+                        </div>
+                    </div>
+                    <div class="book-info flex-grow-1">
+                        <h6 class="mb-1">JavaScript 完全指南</h6>
+                        <p class="text-muted small mb-1">作者：David Flanagan</p>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success me-2">熱銷</span>
+                            <small class="text-muted">售出 234 本</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-item d-flex align-items-center mb-3 p-3 rounded" style="background-color: var(--background-color);">
+                    <div class="book-cover me-3">
+                        <div class="bg-info rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 60px;">
+                            <i class="bi bi-book text-white"></i>
+                        </div>
+                    </div>
+                    <div class="book-info flex-grow-1">
+                        <h6 class="mb-1">Python 機器學習</h6>
+                        <p class="text-muted small mb-1">作者：Sebastian Raschka</p>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-warning me-2">推薦</span>
+                            <small class="text-muted">售出 189 本</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-item d-flex align-items-center p-3 rounded" style="background-color: var(--background-color);">
+                    <div class="book-cover me-3">
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 60px;">
+                            <i class="bi bi-book text-white"></i>
+                        </div>
+                    </div>
+                    <div class="book-info flex-grow-1">
+                        <h6 class="mb-1">設計模式</h6>
+                        <p class="text-muted small mb-1">作者：Gang of Four</p>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary me-2">經典</span>
+                            <small class="text-muted">售出 156 本</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-lightning me-2"></i>快速操作
+                </h5>
+            </div>
+            <div class="admin-card-body">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="btn btn-admin w-100 d-flex flex-column align-items-center p-3">
+                            <i class="bi bi-people fs-4 mb-2"></i>
+                            <span>會員管理</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" class="btn btn-admin w-100 d-flex flex-column align-items-center p-3">
+                            <i class="bi bi-book fs-4 mb-2"></i>
+                            <span>新增書籍</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" class="btn btn-admin w-100 d-flex flex-column align-items-center p-3">
+                            <i class="bi bi-cart-plus fs-4 mb-2"></i>
+                            <span>訂單管理</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" class="btn btn-admin w-100 d-flex flex-column align-items-center p-3">
+                            <i class="bi bi-gear fs-4 mb-2"></i>
+                            <span>系統設定</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Message -->
+<div class="row">
+    <div class="col-12" data-aos="fade-up" data-aos-delay="500">
+        <div class="admin-card">
+            <div class="admin-card-body text-center py-5">
+                <i class="bi bi-book display-1 text-muted mb-3"></i>
+                <h3 class="mb-3" style="font-family: var(--heading-font); color: var(--heading-color);">歡迎使用 BookLanding 管理系統</h3>
+                <p class="text-muted mb-4">這裡是您管理書籍、會員和訂單的中央控制台。使用上方的統計卡片和快速操作來開始管理您的書店。</p>
+                <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="btn btn-admin me-3">
+                    <i class="bi bi-people me-2"></i>管理會員
+                </a>
+                <a href="#" class="btn btn-admin">
+                    <i class="bi bi-plus-circle me-2"></i>新增書籍
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

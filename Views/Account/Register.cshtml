@@ -1,0 +1,226 @@
+@using mvcDapper3.Models.ViewModel
+@model vmRegister
+@{
+    ViewData["Title"] = "註冊帳號";
+    Layout = "_BookLandingAuthLayout";
+    
+    // Get messages from TempData without preserving them
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+    
+    // Get field-specific errors from TempData
+    var fieldErrors = TempData.Keys
+        .Where(k => k.StartsWith("Error_"))
+        .ToDictionary(k => k.Replace("Error_", ""), k => TempData[k] as string);
+}
+
+<div class="auth-container" data-aos="fade-up">
+    <div class="auth-header">
+        <h1>加入我們</h1>
+        <div class="subtitle">創建您的新帳戶</div>
+    </div>
+    
+    <div class="auth-body">
+        <div class="logo-section">
+            <a href="/"><h2>BookLanding</h2></a>
+        </div>
+
+        <!-- Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-in">
+                <i class="bi bi-check-circle me-2"></i>
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" data-aos="fade-in">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-message"></div>
+            
+            <div class="auth-form-group">
+                <label asp-for="Username">使用者帳號</label>
+                <input asp-for="Username" class="auth-form-control" placeholder="請輸入您的帳號" />
+                <span asp-validation-for="Username" class="validation-message"></span>
+            </div>
+            
+            <div class="auth-form-group">
+                <label asp-for="Password">密碼</label>
+                <input asp-for="Password" class="auth-form-control" type="password" placeholder="請輸入密碼" />
+                <span asp-validation-for="Password" class="validation-message"></span>
+            </div>
+            
+            <div class="auth-form-group">
+                <label asp-for="ConfirmPassword">確認密碼</label>
+                <input asp-for="ConfirmPassword" class="auth-form-control" type="password" placeholder="請再次輸入密碼" />
+                <span asp-validation-for="ConfirmPassword" class="validation-message"></span>
+            </div>
+            
+            <div class="auth-form-group">
+                <label asp-for="Email">電子郵件</label>
+                <input asp-for="Email" class="auth-form-control" type="email" placeholder="請輸入您的電子郵件" />
+                <span asp-validation-for="Email" class="validation-message"></span>
+            </div>
+            
+            <!-- Conditional Role Selection -->
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Mis")))
+            {
+                <div class="auth-form-group">
+                    <label asp-for="RoleNo">用戶類型</label>
+                    <select asp-for="RoleNo" class="auth-form-control">
+                        <option value="">請選擇用戶類型</option>
+                        <option value="Member">會員 (Member)</option>
+                        <option value="User">使用者 (User)</option>
+                        <option value="Vendor">供應商 (Vendor)</option>
+                        <option value="Customer">客戶 (Customer)</option>
+                        <option value="Admin">管理員 (Admin)</option>
+                        <option value="Mis">資訊人員 (Mis)</option>
+                    </select>
+                    <span asp-validation-for="RoleNo" class="validation-message"></span>
+                </div>
+            }
+            else
+            {
+                <!-- Hidden field with default value for regular users -->
+                <input type="hidden" asp-for="RoleNo" value="Member" />
+            }
+            
+            <div class="auth-form-group">
+                <label asp-for="CaptchaCode">驗證碼</label>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input asp-for="CaptchaCode" class="auth-form-control" placeholder="請輸入驗證碼" />
+                        <span asp-validation-for="CaptchaCode" class="validation-message"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="data:image/png;base64,@ViewBag.CaptchaImage" alt="Captcha" 
+                                 class="captcha-image border rounded" style="height: 50px;" />
+                            <button type="button" class="captcha-refresh" onclick="refreshCaptchaImg()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                    <button type="submit" class="auth-btn w-100">
+                        <i class="bi bi-person-plus me-2"></i>註冊帳號
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a asp-controller="Account" asp-action="Login" class="auth-btn auth-btn-secondary w-100">
+                        <i class="bi bi-arrow-left me-2"></i>返回登入
+                    </a>
+                </div>
+            </div>
+        </form>
+
+        <div class="auth-links">
+            <p>已經有帳戶了？ <a asp-controller="Account" asp-action="Login">立即登入</a></p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .alert {
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            font-family: var(--default-font);
+        }
+        
+        .alert-success {
+            background-color: color-mix(in srgb, #28a745, transparent 90%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background-color: color-mix(in srgb, #dc3545, transparent 90%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .captcha-image {
+            background-color: var(--surface-color);
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                $('#successModal').modal('show');
+                // Set timeout for auto-redirect
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Login", "Account")';
+                }, 3000);
+                // Handle confirm button click
+                $('#successModal .btn-success').click(function() {
+                    window.location.href = '@Url.Action("Login", "Account")';
+                });
+                </text>
+            }
+            @if (TempData["ErrorMessage"] != null || ViewData.ModelState[""]?.Errors.Count > 0)
+            {
+                <text>$('#errorModal').modal('show');</text>
+            }
+        });
+    </script>
+    <script>
+        // Auto-load captcha on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            refreshCaptchaImg();
+        });
+
+        function refreshCaptchaImg() {
+            // Add timestamp to prevent caching
+            const timestamp = new Date().getTime();
+            fetch('/Account/RefreshCaptchaImg?' + timestamp, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Server returned status:', response.status);
+                    throw new Error('Network response was not ok');
+                }
+                // Log the response content type for debugging
+                //console.log('Response content type:', response.headers.get('content-type'));
+                return response.json();
+            })
+            .then(data => {
+                //console.log('Response data:', data);
+                if (data && data.captchaImage) {
+                    // Update the image source with the base64 image data
+                    document.querySelector('.captcha-image').src = 'data:image/png;base64,' + data.captchaImage;
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            })
+            .catch(error => {
+                console.error('Error refreshing captcha:', error);
+            });
+        }
+    </script>
+}

@@ -1,0 +1,124 @@
+@using mvcDapper3.Models.ViewModel
+@model vmLogin
+
+@{
+    ViewData["Title"] = "使用者登入";
+    Layout = "_BookLandingAuthLayout";
+}
+
+<div class="auth-container" data-aos="fade-up">
+    <div class="auth-header">
+        <h1>歡迎回來</h1>
+        <div class="subtitle">登入您的帳戶以繼續</div>
+    </div>
+    
+    <div class="auth-body">
+        <div class="logo-section">
+            <a href="/"><h2>BookLanding</h2></a>
+        </div>
+
+        <!-- Quick Login Section for Development -->
+        <div class="quick-login-section">
+            <h6>快速登入 (開發用)</h6>
+            <div class="quick-login-buttons">
+                <button type="button" class="btn-quick-login" data-user="Admin" data-password="123456">ADM</button>
+                <button type="button" class="btn-quick-login" data-user="Mis" data-password="123456">Mis</button>
+                <button type="button" class="btn-quick-login" data-user="M001" data-password="123456">M1</button>
+                <button type="button" class="btn-quick-login" data-user="U001" data-password="123456">U1</button>
+                <button type="button" class="btn-quick-login" data-user="U002" data-password="123456">U2</button>
+            </div>
+        </div>
+
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-message"></div>
+            
+            <div class="auth-form-group">
+                <label asp-for="UserNo">使用者帳號</label>
+                <input asp-for="UserNo" class="auth-form-control" placeholder="請輸入您的帳號" />
+                <span asp-validation-for="UserNo" class="validation-message"></span>
+            </div>
+            
+            <div class="auth-form-group">
+                <label asp-for="Password">密碼</label>
+                <input asp-for="Password" class="auth-form-control" type="password" placeholder="請輸入您的密碼" />
+                <span asp-validation-for="Password" class="validation-message"></span>
+            </div>
+            
+            <div class="auth-form-group">
+                <label asp-for="CaptchaCode">驗證碼</label>
+                <div class="captcha-container">
+                    <input asp-for="CaptchaCode" class="auth-form-control" placeholder="請輸入驗證碼" style="flex: 1;" />
+                    <div class="captcha-code" id="captchaCode">@ViewBag.CaptchaCode</div>
+                    <button type="button" class="captcha-refresh" id="refreshCaptcha">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="CaptchaCode" class="validation-message"></span>
+            </div>
+            
+            <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                    <button type="submit" class="auth-btn w-100">登入系統</button>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Account" asp-action="Register" class="auth-btn auth-btn-success w-100">註冊帳號</a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-action="ForgotPassword" class="auth-btn auth-btn-danger w-100">忘記密碼</a>
+                </div>
+            </div>
+            
+            <div class="auth-divider">
+                <span>或</span>
+            </div>
+            
+            <a asp-action="GoogleLogin" class="auth-btn auth-btn-secondary w-100 d-flex align-items-center justify-content-center">
+                <i class="bi bi-google me-2"></i> Google 登入
+            </a>
+        </form>
+
+        <div class="auth-links">
+            <p>還沒有帳戶？ <a asp-controller="Account" asp-action="Register">立即註冊</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initial captcha load
+            refreshCaptcha();
+            
+            // 刷新驗證碼
+            $("#refreshCaptcha").click(function() {
+                refreshCaptcha();
+            });
+
+            function refreshCaptcha() {
+                $.get('@Url.Action("RefreshCaptcha", "Account")', function(data) {
+                    // Clear the input field and update with new captcha code
+                    $("#CaptchaCode").val('');
+                    $("#captchaCode").text(data.captchaCode);
+                }).fail(function() {
+                    // Fallback: just reload the page
+                    location.reload();
+                });
+            }
+
+            // Handle quick login buttons
+            // 測試階段用，正式版要刪除
+            $(".btn-quick-login").click(function() {
+                const user = $(this).data("user");
+                const password = $(this).data("password");
+                const captcha = $("#captchaCode").text();
+                
+                $("#UserNo").val(user);
+                $("#Password").val(password);
+                $("#CaptchaCode").val(captcha);
+                
+                $("form").submit();
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

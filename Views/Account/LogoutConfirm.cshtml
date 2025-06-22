@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "登出確認";
+    Layout = "_AuthLayout";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">登出確認</h3>
+    </div>
+    <div class="card-body">
+        <p>您確定要登出系統嗎？</p>
+        <p class="text-muted">登出後將清除所有登入資訊和 Session 資料。</p>
+        
+        <div class="row">
+            <div class="col-6">
+                <form asp-action="Logout" asp-controller="Account" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger btn-block">
+                        <i class="fas fa-sign-out-alt"></i> 確認登出
+                    </button>
+                </form>
+            </div>
+            <div class="col-6">
+                <a href="javascript:history.back()" class="btn btn-secondary btn-block">
+                    <i class="fas fa-arrow-left"></i> 取消
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

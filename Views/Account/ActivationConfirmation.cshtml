@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "帳號啟用確認";
+    Layout = "_BookLandingAuthLayout";
+}
+
+<!-- Account Activation Confirmation -->
+<div class="auth-form-container" data-aos="fade-up">
+    <div class="auth-card">
+        <div class="auth-header">
+            @if (ViewBag.IsSuccess == true)
+            {
+                <div class="auth-icon" style="background: linear-gradient(135deg, #28a745, color-mix(in srgb, #28a745, transparent 20%));">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <h2 class="auth-title">帳號啟用成功</h2>
+                <p class="auth-subtitle">您的帳號已成功啟用</p>
+            }
+            else
+            {
+                <div class="auth-icon" style="background: linear-gradient(135deg, #dc3545, color-mix(in srgb, #dc3545, transparent 20%));">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+                <h2 class="auth-title">帳號啟用失敗</h2>
+                <p class="auth-subtitle">啟用過程中發生錯誤</p>
+            }
+        </div>
+
+        <div class="auth-body text-center">
+            @if (ViewBag.IsSuccess == true)
+            {
+                <div class="success-message mb-4">
+                    <i class="bi bi-person-check display-4 text-success mb-3"></i>
+                    <p class="mb-3">@ViewBag.Message</p>
+                    <p class="text-muted">您現在可以使用您的帳號登入系統。</p>
+                </div>
+            }
+            else
+            {
+                <div class="error-message mb-4">
+                    <i class="bi bi-exclamation-triangle display-4 text-danger mb-3"></i>
+                    <p class="mb-3">@ViewBag.Message</p>
+                    <p class="text-muted">請檢查啟用連結是否正確，或聯繫客服人員協助處理。</p>
+                </div>
+            }
+
+            <div class="auth-actions">
+                <a asp-controller="Account" asp-action="Login" class="btn auth-btn w-100 mb-3">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>前往登入頁面
+                </a>
+                @if (ViewBag.IsSuccess != true)
+                {
+                    <a asp-controller="Account" asp-action="Register" class="auth-link">
+                        <i class="bi bi-person-plus me-2"></i>重新註冊帳號
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Styles -->
+<style>
+    .success-message {
+        padding: 20px;
+        background-color: color-mix(in srgb, #28a745, transparent 95%);
+        border-radius: 10px;
+        border: 1px solid color-mix(in srgb, #28a745, transparent 80%);
+    }
+
+    .error-message {
+        padding: 20px;
+        background-color: color-mix(in srgb, #dc3545, transparent 95%);
+        border-radius: 10px;
+        border: 1px solid color-mix(in srgb, #dc3545, transparent 80%);
+    }
+
+    .auth-actions {
+        margin-top: 20px;
+    }
+</style>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>@ViewData["Title"] - BookLanding</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="~/images/booklanding/favicon.png" rel="icon">
+  <link href="~/images/booklanding/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="~/css/booklanding/main.css" rel="stylesheet">
+
+  <!-- Authentication specific styles -->
+  <style>
+    /* BookLanding Auth Page Styles */
+    .auth-page {
+      min-height: 100vh;
+      background-color: var(--background-color);
+      display: flex;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .auth-container {
+      background-color: var(--surface-color);
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .auth-header {
+      background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+      color: var(--contrast-color);
+      padding: 30px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .auth-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.3;
+    }
+
+    .auth-header h1 {
+      font-family: var(--heading-font);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-header .subtitle {
+      font-family: var(--default-font);
+      font-size: 1.1rem;
+      margin-top: 8px;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-body {
+      padding: 40px;
+    }
+
+    .auth-form-group {
+      margin-bottom: 25px;
+    }
+
+    .auth-form-group label {
+      font-family: var(--nav-font);
+      font-weight: 500;
+      color: var(--heading-color);
+      margin-bottom: 8px;
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .auth-form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid color-mix(in srgb, var(--default-color), transparent 85%);
+      border-radius: 8px;
+      font-family: var(--default-font);
+      font-size: 1rem;
+      color: var(--default-color);
+      background-color: var(--surface-color);
+      transition: all 0.3s ease;
+    }
+
+    .auth-form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 90%);
+    }
+
+    .auth-form-control::placeholder {
+      color: color-mix(in srgb, var(--default-color), transparent 60%);
+    }
+
+    .auth-btn {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-family: var(--nav-font);
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .auth-btn:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 15%);
+      color: var(--contrast-color);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .auth-btn-secondary {
+      background-color: transparent;
+      color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+    }
+
+    .auth-btn-secondary:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 95%);
+      color: var(--accent-color);
+    }
+
+    .auth-btn-success {
+      background-color: #28a745;
+    }
+
+    .auth-btn-success:hover {
+      background-color: #218838;
+    }
+
+    .auth-btn-danger {
+      background-color: #dc3545;
+    }
+
+    .auth-btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .auth-divider {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+      color: color-mix(in srgb, var(--default-color), transparent 40%);
+      font-family: var(--nav-font);
+    }
+
+    .auth-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: color-mix(in srgb, var(--default-color), transparent 85%);
+    }
+
+    .auth-divider span {
+      background-color: var(--surface-color);
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .validation-message {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 5px;
+      font-family: var(--default-font);
+    }
+
+    .captcha-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .captcha-code {
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      background-color: color-mix(in srgb, var(--accent-color), transparent 95%);
+      padding: 8px 15px;
+      border-radius: 6px;
+      letter-spacing: 3px;
+      border: 1px solid color-mix(in srgb, var(--accent-color), transparent 80%);
+    }
+
+    .captcha-refresh {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .captcha-refresh:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+      transform: rotate(180deg);
+    }
+
+    .quick-login-section {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 95%);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .quick-login-section h6 {
+      font-family: var(--heading-font);
+      color: var(--heading-color);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .quick-login-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-quick-login {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-quick-login:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
+      transform: translateY(-1px);
+    }
+
+    .auth-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .auth-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-family: var(--nav-font);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .auth-links a:hover {
+      color: color-mix(in srgb, var(--accent-color), transparent 20%);
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-section h2 {
+      font-family: var(--heading-font);
+      color: var(--heading-color);
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    /* Mobile responsive styles */
+    @@media (max-width: 768px) {
+      .auth-body {
+        padding: 30px 20px;
+      }
+      
+      .auth-header {
+        padding: 25px 20px;
+      }
+      
+      .auth-header h1 {
+        font-size: 2rem;
+      }
+      
+      .captcha-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+
+  @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="auth-page">
+  <div class="container">
+    @RenderBody()
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="~/lib/jquery/jquery.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Initialize AOS -->
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+  </script>
+
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
